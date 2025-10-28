@@ -108,5 +108,5 @@ Cela peut poser des problèmes d’attribution lorsque plusieurs instances d’u
 
 Actuellement, l’application permet d’afficher l’historique des anciens combats via un menu accessible depuis le bouton **Options**.
 
-Pour le moment, les anciens rapports sont générés avec des valeurs aléatoires, mais j’ai déjà prévu de **refondre l’affichage** afin d’attribuer à chaque rapport le **nom des monstres** présents dans le combat, ainsi que d’ajouter la possibilité de **visualiser tous les ennemis** rencontrés.  
+Pour le moment, les anciens rapports sont générés avec des valeurs aléatoires, mais j’ai déjà prévu de refaire l'affichage afin d’attribuer à chaque rapport le **nom d'un des monstres** présents dans le combat, ainsi que d’ajouter la possibilité de **visualiser tous les ennemis**.  
 Cela permettra de **distinguer facilement les combats contre les boss** et autres affrontements.
