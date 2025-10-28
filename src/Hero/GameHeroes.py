@@ -7,7 +7,15 @@ from Hero.sacrieur import SACRIEUR
 from Hero.enutrof import ENUTROF
 from Hero.feca import FECA
 from Hero.steamer import STEAMER
+from Hero.osamodas import OSAMODAS
 from Hero.pandawa import PANDAWA
+from Hero.ecaflip import ECAFLIP
+from Hero.sadida import SADIDA
+from Hero.roublard import ROUBLARD
+from Hero.ouginak import OUGINAK
+from Hero.eliotrope import ELIOTROPE
+from Hero.huppermage import HUPPERMAGE
+from Hero.sram import SRAM
 from Hero.Ennemy import Ennemy
 import random
 import re
@@ -16,6 +24,7 @@ from core.utils import isControlledByAI
 logger = logging.getLogger(__name__)
 iop = IOP()
 cra = CRA()
+osamodas = OSAMODAS()
 eniripsa = ENIRIPSA()
 xelor = XELOR()
 enutrof = ENUTROF()
@@ -23,9 +32,17 @@ sacrieur = SACRIEUR()
 zobal = ZOBAL()
 steamer = STEAMER()
 pandawa = PANDAWA()
+sadida = SADIDA()
 feca = FECA()
+ecaflip = ECAFLIP()
+sram = SRAM()
+roublard = ROUBLARD()
+ouginak = OUGINAK()
+eliotrope = ELIOTROPE()
+huppermage = HUPPERMAGE()
 actualFight = None
-GameHeroes = [iop, cra, eniripsa, xelor, enutrof, sacrieur, zobal, feca, steamer, pandawa]
+GameHeroes = [iop, cra, eniripsa, xelor, enutrof, sacrieur, zobal,
+             feca, steamer, pandawa, ecaflip, sadida, sram, roublard, ouginak, eliotrope, huppermage, osamodas]
 EnnemyList = []
 
 def handleNewFight():

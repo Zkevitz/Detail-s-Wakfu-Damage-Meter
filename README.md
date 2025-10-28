@@ -13,6 +13,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 - [Exécutable](#-exécutable)
 - [Open Source](#-open-source)
 - [Effets indirects](#-effets-indirects)
+- [Historique](#-Historique)
 
 ---
 
@@ -99,3 +100,13 @@ ne peuvent actuellement pas être associés correctement à leur source.
 
 Cette liste pourra s’allonger avec les futures mises à jour.
 Cela peut poser des problèmes d’attribution lorsque plusieurs instances d’une même classe sont présentes dans un combat.
+
+
+## 🕓 Historique
+
+![Aperçu de l'historique](./assets/Github/HistoriqueScreen.png)
+
+Actuellement, l’application permet d’afficher l’historique des anciens combats via un menu accessible depuis le bouton **Options**.
+
+Pour le moment, les anciens rapports sont générés avec des valeurs aléatoires, mais j’ai déjà prévu de **refondre l’affichage** afin d’attribuer à chaque rapport le **nom des monstres** présents dans le combat, ainsi que d’ajouter la possibilité de **visualiser tous les ennemis** rencontrés.  
+Cela permettra de **distinguer facilement les combats contre les boss** et autres affrontements.
