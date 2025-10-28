@@ -20,7 +20,7 @@ class ENUTROF(Hero):
                         Spell("Coup de grisou", "Feu"),
                         Spell("Coulée de lave", "Feu"),
                         Spell("Assurance tous risques", "Neutre"),
-                        #Spell("Uppercut", "Neutre"),
+                        Spell("Bourse d'Enutrof", "Neutre"),
                         #Spell("Éventrail", "Neutre"),
                         ]
         self.Phorzerker = 0

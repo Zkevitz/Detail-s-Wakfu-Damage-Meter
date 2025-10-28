@@ -17,5 +17,12 @@ class Hero :
         self.ShieldRank = 1
         self.DamageRank = 1
         self.HealRank = 1
+    
+    def getSpell(self, spellMatch):
+        for spell in self.spells: 
+            if spell.name == spellMatch : 
+                return spell
+        return None
+        
     def clear(self):
         self.__init__()

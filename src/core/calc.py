@@ -2,6 +2,7 @@ from core.utils import TotalAmountOfDamage, TotalAmountOfHeal, extractPlayerName
 from core.interface_support import updateHeroValue
 from Hero.GameHeroes import GameHeroes
 import re
+from Hero.spell import Spell
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,14 +12,19 @@ lastHeroes = None
 def parseSpellInLine(line):
     global lastHeroes
     match = re.search(r"lance le sort\s+([^(]+?)(?:\s*\([^)]*\))?$", line)
+    NameSearch = re.search(r"\b([A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ][\w\-]*(?:\s+[A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ]?[a-zéèêëàùûüîïôöç'\-]+)*)\s+lance le sort\b", line)
     if match :
+        CurrentName = NameSearch.group(1).strip()
         match = match.group(1).strip()
         for hero in PlayedHeroes:
-            for spell in hero.spells:
-                if spell.name == match:
-                    lastHeroes = hero
+            if CurrentName == hero.name:
+                lastHeroes = hero
+                spell = hero.getSpell(match)
+                if spell :
+                    logger.debug(f"used spell {spell.name} by {hero.name}")
                     hero.UsedSpell.append(spell)
                     return spell
+                return None
     lastHeroes = None
     return None
 
@@ -37,7 +43,7 @@ def parseDamageInLine(line):
             indirectHero = checkIndirectCompatibility(parsedIndirect, PlayedHeroes)
             if indirectHero :
                 lastHeroes = indirectHero
-            logger.debug("indirect --> ", parsedIndirect)
+                logger.debug("indirect --> ", parsedIndirect)
         return {"sign": sign, "value": value, "element": parsedElement, "indirect": parsedIndirect} 
     return None
 
@@ -55,7 +61,7 @@ def parseShieldInLine(line):
         indirectHero = checkIndirectCompatibility(parsedIndirect, PlayedHeroes)
         if indirectHero :
             lastHeroes = indirectHero
-        logger.debug("indirect --> ", parsedIndirect)
+        logger.debug(f"indirect --> {parsedIndirect}")
     try:
         value = int(cleaned)
     except ValueError:

@@ -9,7 +9,7 @@ import logging
 
 # Configuration simple
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
@@ -72,7 +72,7 @@ class MyHandler(FileSystemEventHandler):
                     elif self.MultiMode and self.MultiModeTrim(l) == 1:
                         logging.debug(f"Debug : MultiMode Line trimmed {l}")
                         continue
-                    elif "eNh:1402" in l:
+                    elif "eRL:1407" in l:
                         NewHero(l)
                     elif "lance le sort" in l:
                         parseSpellInLine(l)
@@ -80,7 +80,7 @@ class MyHandler(FileSystemEventHandler):
                         handle_spell(l)
                     elif "Armure" in l:
                         handleShield(l)
-                    elif "aVo:92" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
+                    elif "aVi:92" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
                         self.MultiModeList.clear()
                         self.MultiMode = False
                         self.CreationCount = 0
@@ -93,18 +93,18 @@ class MyHandler(FileSystemEventHandler):
 
     def on_created(self, event):
         if Path(event.src_path).name == self.file.name:
-            infoLogger.info(f"{self.file.name} recréé, réinitialisation du suivi")
+            logging.info(f"{self.file.name} recréé, réinitialisation du suivi")
             self.position = 0 
             self.process_file()
 
     def on_moved(self, event):
         if Path(event.src_path).name == self.file.name:
-            infoLogger.info(f"{self.file.name} déplacé vers {event.dest_path}")
+            logging.info(f"{self.file.name} déplacé vers {event.dest_path}")
             self.position = 0 
 
     def on_deleted(self, event):
         if Path(event.src_path).name == self.file.name:
-            infoLogger.info(f"{self.file.name} supprimé")
+            logging.info(f"{self.file.name} supprimé")
             self.position = 0
             
 file = "/Users/Zkevitz/AppData/Roaming/zaap/gamesLogs/wakfu/logs/wakfu.log"
