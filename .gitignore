@@ -1,0 +1,8 @@
+venv/
+Rapport/*.json
+doc/
+error.log
+themes.json
+src/build/
+src/dist/
+src/monitor2.spec

@@ -1,0 +1,341 @@
+[
+  {
+    "spells": [
+      {
+        "name": "Épée céleste",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Fulgur",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Super Iop Punch",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Jugement",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Super Iop Punch",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Colère de Iop",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Ébranler",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Roknocerok",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Fendoir",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Charge",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Ravage",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Jabs",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Rafale",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Torgnole",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Tannée",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Épée de Iop",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Uppercut",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Éventrail",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Vertu",
+        "element": "Neutre",
+        "indirect": false
+      }
+    ],
+    "concentrations": 0,
+    "className": "IOP",
+    "name": "Gigosqus",
+    "PlayedTurn": 0,
+    "UsedSpell": [],
+    "DamageDone": [],
+    "AirDamage": [],
+    "FireDamage": [],
+    "WaterDamage": [],
+    "EarthDamage": [],
+    "HealDone": [],
+    "ShieldDone": [],
+    "TotalAmountOfShield": 0,
+    "TotalAmountOfDamage": 0,
+    "TotalAmountOfHeal": 0,
+    "ShieldRank": 1,
+    "DamageRank": 1,
+    "HealRank": 1
+  },
+  {
+    "spells": [
+      {
+        "name": "Courant",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Ecume",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Évaporation",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Flibuste",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Dissolution",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Crache flammes",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Feu ardent",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Calcination",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Flambage",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Sabordage",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "À la masse",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Piétinement",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Pilonnage",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Marteau aimant",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Choc",
+        "element": "Terre",
+        "indirect": false
+      },
+      {
+        "name": "Blindage",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Tir de destruction",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Tir de distance",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Tir d'alignement",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Surtension",
+        "element": "Neutre",
+        "indirect": false
+      },
+      {
+        "name": "Stratégie robotique",
+        "element": "Neutre",
+        "indirect": false
+      }
+    ],
+    "className": "STEAMER",
+    "name": "Zequyxo-Laquet",
+    "PlayedTurn": 0,
+    "UsedSpell": [],
+    "DamageDone": [],
+    "AirDamage": [],
+    "FireDamage": [],
+    "WaterDamage": [],
+    "EarthDamage": [],
+    "HealDone": [],
+    "ShieldDone": [],
+    "TotalAmountOfShield": 0,
+    "TotalAmountOfDamage": 0,
+    "TotalAmountOfHeal": 0,
+    "ShieldRank": 1,
+    "DamageRank": 1,
+    "HealRank": 1
+  },
+  {
+    "spells": [
+      {
+        "name": "Coup de pied fouetté",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Félure",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Névrose",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Détraquage",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Cabriole",
+        "element": "Feu",
+        "indirect": false
+      },
+      {
+        "name": "Signe",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Armature",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Rescousse",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Acharnement",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Sarabande",
+        "element": "Eau",
+        "indirect": false
+      },
+      {
+        "name": "Culbute",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Fugue",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Poursuite",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Cavalcade",
+        "element": "Air",
+        "indirect": false
+      },
+      {
+        "name": "Dislocation",
+        "element": "Air",
+        "indirect": false
+      }
+    ],
+    "className": "ZOBAL",
+    "name": "Gnefet",
+    "PlayedTurn": 0,
+    "UsedSpell": [],
+    "DamageDone": [],
+    "AirDamage": [],
+    "FireDamage": [],
+    "WaterDamage": [],
+    "EarthDamage": [],
+    "HealDone": [],
+    "ShieldDone": [],
+    "TotalAmountOfShield": 0,
+    "TotalAmountOfDamage": 0,
+    "TotalAmountOfHeal": 0,
+    "ShieldRank": 1,
+    "DamageRank": 1,
+    "HealRank": 1
+  }
+]
