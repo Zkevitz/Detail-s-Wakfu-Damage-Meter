@@ -17,6 +17,7 @@ class Hero :
         self.ShieldRank = 1
         self.DamageRank = 1
         self.HealRank = 1
+        self.InvocList = []
     
     def getSpell(self, spellMatch):
         for spell in self.spells: 

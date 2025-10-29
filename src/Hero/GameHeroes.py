@@ -17,6 +17,7 @@ from Hero.eliotrope import ELIOTROPE
 from Hero.huppermage import HUPPERMAGE
 from Hero.sram import SRAM
 from Hero.Ennemy import Ennemy
+from Hero.invo import Invo
 import random
 import re
 import logging
@@ -64,6 +65,18 @@ def GenerateRapport():
     from core.extractData import extractData
     extractData(PlayedHeroes, EnnemyList)
 
+def handleInvoc(line):
+    from core.calc import PlayedHeroes
+    match = re.search(r"\[Information \(combat\)\]\s+([^:]+):\s+Invoque un", line)
+    InvocName = re.search(r"Invoque un(?:\(e\))?\s+([A-Za-zÀ-ÖØ-öø-ÿ'`\- ]+)", line)
+    if match :
+        matchName = match.group(1)
+        for hero in PlayedHeroes :
+            if hero.name == matchName :
+                hero.InvocList.append(Invo(InvocName.group(1).strip()))
+                logger.debug(f"{InvocName.group(1)} ?!=? {matchName}")
+                if InvocName.group(1).strip() == "Lapino" :
+                    hero.InvocList.append(Invo("Super Lapino"))
 def NewHero(line) :
     from core.calc import PlayedHeroes
     matchNumber = re.search(r"breed\s*:\s*(\d+)", line)

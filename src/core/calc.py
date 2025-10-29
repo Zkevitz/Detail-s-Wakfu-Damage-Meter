@@ -26,7 +26,10 @@ def parseSpellInLine(line):
         spellMatch = match.group("spell")
         #logger.debug(f"debug new parsespell with CAC {CurrentName} - {action} - {spellMatch}")
         for hero in PlayedHeroes:
-            if CurrentName == hero.name:
+            for Invo in hero.InvocList :
+                logger.debug(f"nom de l'invoc {Invo.name}")
+            logger.debug(f"currentName {CurrentName}")
+            if CurrentName == hero.name or hero.InvocList and any(CurrentName == invo.name for invo in hero.InvocList):
                 lastHeroes = hero
                 spell = hero.getSpell(spellMatch)
                 if spell :

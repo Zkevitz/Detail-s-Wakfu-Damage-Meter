@@ -4,7 +4,7 @@ from pathlib import Path
 import time
 import re 
 from core.calc import handle_spell, parseSpellInLine, handleShield, ResetCalc
-from Hero.GameHeroes import handleNewFight, NewHero, GenerateRapport
+from Hero.GameHeroes import handleNewFight, NewHero, GenerateRapport, handleInvoc
 import logging
 
 # Configuration simple
@@ -79,6 +79,10 @@ class MyHandler(FileSystemEventHandler):
                             handle_spell(l)
                         elif "Armure" in l:
                             handleShield(l)
+                        elif "Invoque un" in l:
+                            handleInvoc(l)
+                        #elif "secondes reportées pour le tour suivant." in l:
+                            #implementer fin de tour
                     elif self.CreationCount > 0 and "aVi:92" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
                         self.MultiModeList.clear()
                         self.MultiMode = False
