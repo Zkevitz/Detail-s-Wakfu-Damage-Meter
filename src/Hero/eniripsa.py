@@ -25,6 +25,8 @@ class ENIRIPSA(Hero):
                         Spell("Marque eting", "Feu"),
                         Spell("Soin unique", "Neutre"),
                         Spell("Radiance", "Neutre"),
-                        Spell("Marque itsade", "Neutre")
+                        Spell("Marque itsade", "Neutre"),
+                        Spell("Propagateur délayé", "Neutre"),
+                        Spell("Délai", "Neutre")
                         ]
         Hero.__init__(self, "ENIRIPSA")

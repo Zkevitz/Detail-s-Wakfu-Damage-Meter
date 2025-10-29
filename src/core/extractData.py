@@ -44,7 +44,7 @@ def _to_serializable(obj: Any):
         return None
 
 
-def extractData(playedHeroes: Iterable) :
+def extractData(playedHeroes: Iterable, EnnemyList : Iterable) :
     """
     Extrait toutes les valeurs des objets dans playedHeroes et les écrit dans un fichier JSON.
     - playedHeroes : itérable d'objets Hero
@@ -53,7 +53,7 @@ def extractData(playedHeroes: Iterable) :
     #TO DO match le nom de l'historique avec le premier mob afficher en breed 
     data_list = []
     numero = random.randint(1000, 9999)
-    output_filename = f"Rapport/rapport_{numero}.json"
+    output_filename = f"Rapport/{EnnemyList[0].name}_{numero}.json"
     for hero in playedHeroes:
         # Tenter d'obtenir un dict propre à partir de l'objet hero
         # On utilise d'abord __dict__ si disponible, sinon on tente une conversion générique
@@ -63,10 +63,15 @@ def extractData(playedHeroes: Iterable) :
             # Si l'objet n'a pas __dict__, on tente une conversion générique
             hero_dict = _to_serializable(hero)
 
-        # Assurer que les clés utiles existent (optionnel)
         # Remplace les objets complexes par leurs versions sérialisées
-        # (la fonction _to_serializable a déjà converti récursivement)
         data_list.append(hero_dict)
+    for Ennemy in EnnemyList :
+        if hasattr(Ennemy, "__dict__"):
+            Ennemy_dict = _to_serializable(Ennemy.__dict__)
+        else:
+            Ennemy_dict = _to_serializable(Ennemy)
+
+        data_list.append(Ennemy_dict)
 
     # Écrire dans le fichier JSON (remplace le fichier existant)
     with open(output_filename, "w", encoding="utf-8") as f:
@@ -93,12 +98,17 @@ def loadHeroesFromJson(input_filename: str, playedHeroes: list[Hero]) -> list[He
 
     heroes = []
     for data in data_list:
+
+        if "className" not in data:
+            logger.debug(f"Ignoré : {data.get('name', '(sans nom)')} (pas de className)")
+            continue
         #Création de base avec les seuls arguments du constructeur
         tmphero = Hero(
             className=data.get("className", "Inconnu"),
             name=data.get("name", "")
         )
         for hero in GameHeroes:
+            logger.debug(f"Load Played from json {tmphero.className}")
             if hero.className == tmphero.className:
                 hero = hero
                 break

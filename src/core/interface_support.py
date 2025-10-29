@@ -152,7 +152,12 @@ def ShowHistory():
 
     scrolableFrame = ctk.CTkScrollableFrame(window, label_text="Rapport History")
     scrolableFrame.pack(fill="both", expand=True, padx=10, pady=10)
-    for i, nom_fichier in enumerate(os.listdir("Rapport")):
+    fichiers = sorted(
+        [f for f in os.listdir("Rapport") if os.path.isfile(os.path.join("Rapport", f))],
+        key=lambda f: os.path.getmtime(os.path.join("Rapport", f)),
+        reverse=True
+    )
+    for i, nom_fichier in enumerate(fichiers):
         chemin_complet = os.path.join("Rapport", nom_fichier)
         if os.path.isfile(chemin_complet):
             label = ctk.CTkLabel(scrolableFrame, text=nom_fichier)

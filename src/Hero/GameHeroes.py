@@ -47,10 +47,8 @@ EnnemyList = []
 
 def handleNewFight():
     from core.calc import PlayedHeroes
-    from core.extractData import extractData
     from core.interface_support import resetListbox
     if PlayedHeroes:
-        extractData(PlayedHeroes)
         for hero in PlayedHeroes :
             hero.clear()
         PlayedHeroes.clear()
@@ -60,6 +58,11 @@ def handleNewFight():
     resetListbox()
     global actualFight
     actualFight = random.randint(1000, 99999)
+
+def GenerateRapport():
+    from core.calc import PlayedHeroes
+    from core.extractData import extractData
+    extractData(PlayedHeroes, EnnemyList)
 
 def NewHero(line) :
     from core.calc import PlayedHeroes

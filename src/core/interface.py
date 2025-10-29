@@ -21,7 +21,13 @@ class Toplevel1:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
         top is the toplevel containing window.'''
-        top.geometry("350x250+660+210")
+        largeur = 350
+        hauteur = 250
+        screen_width = top.winfo_screenwidth()
+        screen_height = top.winfo_screenheight()
+        x = screen_width - largeur - 10
+        y = 10
+        top.geometry(f"{largeur}x{hauteur}+{x}+{y}")
         #top.minsize(120, 1)
         #top.maxsize(3844, 1061)
         #top.resizable(1,  1)

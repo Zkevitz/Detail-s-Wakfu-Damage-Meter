@@ -2,7 +2,7 @@ from Hero.spell import Spell
 from Hero.hero import Hero
 class SADIDA(Hero):
     color = "#FF99FF"
-    breed = 7
+    breed = 10
     def __init__(self):
         self.spells = [Spell("Vaporiser", "Eau"),
                         Spell("Larme du Sadida", "Eau"),

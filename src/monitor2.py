@@ -3,8 +3,8 @@ from watchdog.events import FileSystemEventHandler
 from pathlib import Path
 import time
 import re 
-from core.calc import handle_spell, parseSpellInLine, handleShield
-from Hero.GameHeroes import handleNewFight, NewHero
+from core.calc import handle_spell, parseSpellInLine, handleShield, ResetCalc
+from Hero.GameHeroes import handleNewFight, NewHero, GenerateRapport
 import logging
 
 # Configuration simple
@@ -61,8 +61,6 @@ class MyHandler(FileSystemEventHandler):
                 if l.startswith(" INFO "):
                     logging.debug(f"Debug start with INFO: {l}")
                     if "CREATION DU COMBAT" in l:
-                        logging.debug(f"Debug : MultiMode {self.MultiMode}")
-                        logging.debug(f"Debug : creationCount {self.CreationCount}")
                         self.CreationCount +=1
                         if self.CreationCount == 2 :
                             self.MultiMode = True
@@ -70,21 +68,25 @@ class MyHandler(FileSystemEventHandler):
                         handleNewFight()
                         logging.info("Nouveau combat détecté")
                     elif self.MultiMode and self.MultiModeTrim(l) == 1:
-                        logging.debug(f"Debug : MultiMode Line trimmed {l}")
+                        #logging.debug(f"Debug : MultiMode Line trimmed {l}")
                         continue
                     elif "eRL:1407" in l:
                         NewHero(l)
-                    elif "lance le sort" in l:
-                        parseSpellInLine(l)
-                    elif "PV" in l:
-                        handle_spell(l)
-                    elif "Armure" in l:
-                        handleShield(l)
-                    elif "aVi:92" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
+                    elif "[Information (combat)]" in l:
+                        if "lance le sort" in l or "utilise l'objet" in l:
+                            parseSpellInLine(l)
+                        elif "PV" in l:
+                            handle_spell(l)
+                        elif "Armure" in l:
+                            handleShield(l)
+                    elif self.CreationCount > 0 and "aVi:92" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
                         self.MultiModeList.clear()
                         self.MultiMode = False
                         self.CreationCount = 0
                         self.countcase = 0
+                        logging.debug(f"fin du combat {self.MultiMode} - {self.CreationCount}")
+                        GenerateRapport()
+                        ResetCalc()
             self.position = f.tell()
 
     def on_modified(self, event):

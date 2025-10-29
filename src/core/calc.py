@@ -8,31 +8,46 @@ import logging
 logger = logging.getLogger(__name__)
 
 PlayedHeroes = []
+
 lastHeroes = None
+lastIndirectHeroes = None
+
 def parseSpellInLine(line):
-    global lastHeroes
-    match = re.search(r"lance le sort\s+([^(]+?)(?:\s*\([^)]*\))?$", line)
-    NameSearch = re.search(r"\b([A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ][\w\-]*(?:\s+[A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ]?[a-zéèêëàùûüîïôöç'\-]+)*)\s+lance le sort\b", line)
+    global lastHeroes, lasIndirectHeroes
+    pattern = re.compile(
+        r"\b(?P<name>[A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ][\w\-]*(?:\s+[A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ]?[a-zéèêëàùûüîïôöç'\-]+)*)\s+"
+        r"(?P<action>lance le sort|utilise l'objet)\s+"
+        r"(?P<spell>[^(]+?)(?:\s*\([^)]*\))?$"
+    )
+    match = pattern.search(line)
     if match :
-        CurrentName = NameSearch.group(1).strip()
-        match = match.group(1).strip()
+        CurrentName = match.group("name").strip()
+        #action = match.group("action")
+        spellMatch = match.group("spell")
+        #logger.debug(f"debug new parsespell with CAC {CurrentName} - {action} - {spellMatch}")
         for hero in PlayedHeroes:
             if CurrentName == hero.name:
                 lastHeroes = hero
-                spell = hero.getSpell(match)
+                spell = hero.getSpell(spellMatch)
                 if spell :
                     logger.debug(f"used spell {spell.name} by {hero.name}")
                     hero.UsedSpell.append(spell)
                     return spell
                 return None
     lastHeroes = None
+    lastIndirectHeroes = None
     return None
 
 def parseDamageInLine(line):
-    global lastHeroes
+    global lastHeroes, lastIndirectHeroes
+    parsedIndirect = None
     match = re.search(r"([+-])\s*([\d\s ]+)\s*PV", line)
     element = re.search(r'PV\s*\(([^)]+)\)', line)
     indirect = re.search(r'\(([^()]*)\)(?!.*\([^()]*\))', line)
+    Target = re.search(r"\[Information \(combat\)\]\s+([^:]+):\s*-[\d\s ]+PV", line)
+
+    if Target and lastHeroes and lastHeroes.name == Target.group(1).strip() :
+        return
     if match:
         sign = match.group(1)   
         value = re.sub(r'\D', '', match.group(2))  # nettoyage espaces
@@ -41,13 +56,18 @@ def parseDamageInLine(line):
         if indirect :
             parsedIndirect = indirect.group(1)
             indirectHero = checkIndirectCompatibility(parsedIndirect, PlayedHeroes)
+            print(f"Debug : {indirectHero}")
             if indirectHero :
-                lastHeroes = indirectHero
-                logger.debug("indirect --> ", parsedIndirect)
+                lastIndirectHeroes = indirectHero
+            else :
+                parsedIndirect = None
+                lastIndirectHeroes = None
+            logger.debug(f"indirect -->  {parsedIndirect}")
         return {"sign": sign, "value": value, "element": parsedElement, "indirect": parsedIndirect} 
     return None
 
 def parseShieldInLine(line):
+    global lastHeroes, lastIndirectHeroes
     pattern = r'(\d[\d\u00A0\u202F ]*)(?=\s*Armure\b)'
     match = re.search(pattern, line, flags=re.IGNORECASE)
     indirect = re.search(r'\(([^()]*)\)(?!.*\([^()]*\))', line)
@@ -59,8 +79,12 @@ def parseShieldInLine(line):
     if indirect :
         parsedIndirect = indirect.group(1)
         indirectHero = checkIndirectCompatibility(parsedIndirect, PlayedHeroes)
+        print(f"Debug WTF PK CA RENVOIE UN SORT : {indirectHero}")
         if indirectHero :
-            lastHeroes = indirectHero
+            lastIndirectHeroes = indirectHero
+        else :
+            parsedIndirect = None
+            lastIndirectHeroes = None
         logger.debug(f"indirect --> {parsedIndirect}")
     try:
         value = int(cleaned)
@@ -71,32 +95,69 @@ def parseShieldInLine(line):
     return {"sign": "+", "value": value, "element": "Shield", "indirect": parsedIndirect}
     
 def handle_spell(line):
-    global lastHeroes
+    global lastHeroes, lastIndirectHeroes
+
     IncomingValue = parseDamageInLine(line)
-    logger.debug(f"Debug last hero handle Spell : {lastHeroes}")
-    if IncomingValue and lastHeroes:
-        for hero in PlayedHeroes:
-            if lastHeroes != None and hero.name == lastHeroes.name:
-                if IncomingValue["sign"] == '+' and IncomingValue["element"] != "Shield":
-                    hero.HealDone.append(int(IncomingValue["value"]))
-                    hero.TotalAmountOfHeal += int(IncomingValue["value"])
-                elif IncomingValue["element"] == "Shield":
-                    hero.ShieldDone.append(int(IncomingValue["value"]))
-                    hero.TotalAmountOfShield += int(IncomingValue["value"])
-                else :
-                    hero.DamageDone.append(int(IncomingValue["value"]))
-                    hero.TotalAmountOfDamage += int(IncomingValue["value"])
-                break      
-        update_hero_rankings(PlayedHeroes)
-        updateHeroValue(PlayedHeroes)
+    logger.debug(f"Debug last hero handle Spell : {lastHeroes} {lastIndirectHeroes}")
+
+    if not IncomingValue:
+        return
+
+    target_hero = None
+    if IncomingValue["indirect"] and lastIndirectHeroes:
+        target_hero = lastIndirectHeroes
+    elif IncomingValue["indirect"] is None and lastHeroes:
+        target_hero = lastHeroes
+
+    if not target_hero:
+        return
+
+    # Recherche du héros correspondant dans PlayedHeroes
+    value = int(IncomingValue["value"])
+    sign = IncomingValue["sign"]
+    element = IncomingValue["element"]
+    logger.debug(f"debug depuis HANDLE SPELL {IncomingValue["indirect"]} - {element}")
+    for hero in PlayedHeroes:
+        if hero.name == target_hero.name:
+            if sign == '+':
+                hero.HealDone.append(value)
+                hero.TotalAmountOfHeal += value
+            else:
+                hero.DamageDone.append(value)
+                hero.TotalAmountOfDamage += value
+            break
+    update_hero_rankings(PlayedHeroes)
+    updateHeroValue(PlayedHeroes)
 
 def handleShield(line) :
+    global lastHeroes, lastIndirectHeroes
     IncomingValue = parseShieldInLine(line)
-    if IncomingValue :
-        for hero in PlayedHeroes: 
-            if lastHeroes != None and hero.name == lastHeroes.name :
-                hero.ShieldDone.append(int(IncomingValue["value"]))
-                hero.TotalAmountOfShield += int(IncomingValue["value"])
-                break
-        update_hero_rankings(PlayedHeroes)
-        updateHeroValue(PlayedHeroes)
+
+    logger.debug(f"Debug last hero handle Spell : {lastHeroes} {lastIndirectHeroes}")
+
+    if not IncomingValue:
+        return 
+    
+    target_hero = None 
+    if IncomingValue["indirect"] and lastIndirectHeroes:
+        target_hero = lastIndirectHeroes
+    elif IncomingValue["indirect"] is None and lastHeroes:
+        target_hero = lastHeroes
+
+    if not target_hero :
+        return
+    value = int(IncomingValue["value"])
+    sign = IncomingValue["sign"]
+    element = IncomingValue["element"]
+    logger.debug(f"debug depuis HANDLE SHIELD {IncomingValue["indirect"]} - {element}")
+    for hero in PlayedHeroes:
+        if hero.name == target_hero.name:
+            hero.ShieldDone.append(value)
+            hero.TotalAmountOfShield += value
+            break
+    update_hero_rankings(PlayedHeroes)
+    updateHeroValue(PlayedHeroes)
+
+def ResetCalc():
+    lastHeroes = None
+    lastIndirectHeroes = None

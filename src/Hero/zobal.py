@@ -19,7 +19,7 @@ class ZOBAL(Hero):
                         Spell("Poursuite", "Air"),
                         Spell("Cavalcade", "Air"),
                         Spell("Dislocation", "Air"),
-                        #Spell("Épée de Iop", "Air"),
+                        Spell("Danse motivante", "Neutre"),
                         #Spell("Uppercut", "Neutre"),
                         #Spell("Éventrail", "Neutre"),
                         ]

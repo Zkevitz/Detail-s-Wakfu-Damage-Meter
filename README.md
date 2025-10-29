@@ -8,6 +8,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 
 ## 📚 Sommaire
 - [Aperçu](#-aperçu)
+- [Etat-Actuel](#-Etat-Actuel)
 - [Limitations](#-limitations)
 - [Fonctionnement](#-fonctionnement-global)
 - [Exécutable](#-exécutable)
@@ -23,10 +24,26 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 
 ---
 
+## Etat-Actuel 
+
+actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
+
+les classes suivante n'ont pas encore leurs effets passif integré et testé 
+->Xelor
+->Eniripsa
+->Iop
+-sacrieur
+->Sadida
+->ecaflip
+->zobal
+->cra
+->
 ## 🔒 Limitations
 
 - Ne fonctionne pas en **PvP** (impossible de distinguer Alliés / Ennemis).  
-- Ne fonctionne pas avec les **glyphes Féca** (voir section [Effets indirects](#-effets-indirects)).  
+- Ne fonctionne pas avec les **glyphes Féca** (voir section [Effets indirects](#-effets-indirects)).
+- Ne fonctionne pas avec la glyphe nature morte de l'eniripsa
+- Ne fonctionne potentiellement avec aucun glyphe
 - Ne fonctionne pas avec le **passif Pucif** de l’Écaflip (voir section [Effets indirects](#-effets-indirects)).  
 - Les **réanimations** n’affichent pas de valeur dans les logs.
 
@@ -95,7 +112,7 @@ Le programme s’appuie sur un référencement des effets de toutes les classes 
 Cependant :
 
 Les glyphes du Féca,
-Et le passif Pucif de l’Écaflip,
+Et les heal du passif 'Pucif' de l’Écaflip,
 ne peuvent actuellement pas être associés correctement à leur source.
 
 Cette liste pourra s’allonger avec les futures mises à jour.

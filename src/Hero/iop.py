@@ -23,6 +23,9 @@ class IOP(Hero):
                         Spell("Uppercut", "Neutre"),
                         Spell("Éventrail", "Neutre"),
                         Spell("Vertu", "Neutre"),
+                        Spell("Égaré", "Feu"),
+                        Spell("Fortification", "Neutre"),
+                        Spell("Bravoure", "Neutre")
                         ]
         self.concentrations = 0
         Hero.__init__(self, "IOP")
