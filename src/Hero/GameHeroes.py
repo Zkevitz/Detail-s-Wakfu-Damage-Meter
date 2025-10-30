@@ -77,6 +77,10 @@ def handleInvoc(line):
                 logger.debug(f"{InvocName.group(1)} ?!=? {matchName}")
                 if InvocName.group(1).strip() == "Lapino" :
                     hero.InvocList.append(Invo("Super Lapino"))
+                elif InvocName.group(1).strip() == "Dark Lapino":
+                    hero.InvocList.append(Invo("Super Dark Lapino"))
+                break
+
 def NewHero(line) :
     from core.calc import PlayedHeroes
     matchNumber = re.search(r"breed\s*:\s*(\d+)", line)

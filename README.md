@@ -29,22 +29,26 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
 
 les classes suivante n'ont pas encore leurs effets passif integré et testé 
-->Xelor
-->Eniripsa
-->Iop
--sacrieur
-->Sadida
-->ecaflip
-->zobal
-->cra
-->
-## 🔒 Limitations
+-ouginak 
+-sram 
+-huppermage
+-osamodas
+-steamer 
 
+le reste des classes est soit completement geré soit en progression 
+Ce travaille demande du temps, un acces aux classes et une certaine connaissances de celle-ci, ce que je n'ai pas forcement, il est donc possible que certain oublis ou meconnaissance de ma part soit encore present 
+
+## 🔒 Limitations
+la pluspart des glyphes posé au sol ne peuvent pas etre tracker comme il le faut car aucun indicateurs n'est present dans le chat (voir section [Effets indirects](#-effets-indirects)).
+
+voici une liste detaillé de tous les effets que je n'arrive pas encore a tracker : 
 - Ne fonctionne pas en **PvP** (impossible de distinguer Alliés / Ennemis).  
-- Ne fonctionne pas avec les **glyphes Féca** (voir section [Effets indirects](#-effets-indirects)).
-- Ne fonctionne pas avec la glyphe nature morte de l'eniripsa
-- Ne fonctionne potentiellement avec aucun glyphe
-- Ne fonctionne pas avec le **passif Pucif** de l’Écaflip (voir section [Effets indirects](#-effets-indirects)).  
+- Ne fonctionne pas avec les **glyphes Féca**.
+- Ne fonctionne pas avec la glyphe nature morte de l'eniripsa.
+- Ne fonctionne pas avec le **passif Pucif** de l’Écaflip (voir section [Effets indirects](#-effets-indirects)).
+- Ne fonctionne pas avec les degats de la Trainée de Wakfu poser par le sort **Flux torrentiel** de l'eliotrope
+- Ne fonctionne pas avec le heal du **passif Protecteur du troupeau** Feca
+- Ne fonction pas avec les degats du **passif Mur de poudre** du roublard
 - Les **réanimations** n’affichent pas de valeur dans les logs.
 
 ---
@@ -88,6 +92,7 @@ pas encore disponible
 
 !actuellement l'application est prevu pour tourner sur windows avant tout!
 
+`LINUX`
 1. Cree votre environnement virtuel python 
 `python3 -m venv .venv`
 
@@ -100,6 +105,19 @@ pas encore disponible
 4. Lancer le programme 
 `python3 src/monitor2.py`
 
+`WINDOWS`
+1. Cree votre environnement virtuel python 
+`python -m venv .venv`
+
+2. activer l'environnement virtuel 
+`.venv\Scripts\Activate.ps1` ou `.venv\Scripts\activate.bat`
+
+3. Installer les paquets (pip)
+`pip install -r requirementsW.txt`
+
+4. Lancer le programme 
+`python src/monitor2.py`
+
 ## 🔁 Effets indirects
 
 Les dégâts ou effets indirects sont actuellement gérés grâce à la dernière parenthèse de chaque ligne du log, qui indique généralement le nom de l’effet concerné, par exemple :
@@ -111,19 +129,17 @@ Le programme s’appuie sur un référencement des effets de toutes les classes 
 
 Cependant :
 
-Les glyphes du Féca,
-Et les heal du passif 'Pucif' de l’Écaflip,
+Les glyphes de maniere génerale et les heal du passif 'Pucif' de l’Écaflip,
 ne peuvent actuellement pas être associés correctement à leur source.
 
-Cette liste pourra s’allonger avec les futures mises à jour.
-Cela peut poser des problèmes d’attribution lorsque plusieurs instances d’une même classe sont présentes dans un combat.
+Cela peut egalement poser des problèmes d’attribution lorsque plusieurs instances d’une même classe sont présentes dans un combat.
 
 
 ## 🕓 Historique
 
 ![Aperçu de l'historique](./assets/Github/HistoriqueScreen.png)
 
-Actuellement, l’application permet d’afficher l’historique des anciens combats via un menu accessible depuis le bouton **Options**.
+Actuellement, l’application permet d’afficher l’historique des anciens combats trié dans l'ordre du plus recent en premier via un menu accessible depuis le bouton **Options**.
 
-Pour le moment, les anciens rapports sont générés avec des valeurs aléatoires, mais j’ai déjà prévu de refaire l'affichage afin d’attribuer à chaque rapport le **nom d'un des monstres** présents dans le combat, ainsi que d’ajouter la possibilité de **visualiser tous les ennemis**.  
-Cela permettra de **distinguer facilement les combats contre les boss** et autres affrontements.
+Un boutton Toggle est disponible pour detailler les monstres affrontés 
+et un boutton Ouvrir est disponible pour revoir dans le details le combat en question

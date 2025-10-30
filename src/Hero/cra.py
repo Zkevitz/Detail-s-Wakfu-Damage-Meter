@@ -20,7 +20,7 @@ class CRA(Hero):
                         Spell("Flèche harcelante", "Air"),
                         Spell("Flèche statique", "Air"),
                         Spell("Flèche lumineuse", "Neutre"),
-                        #Spell("Uppercut", "Neutre"),
+                        Spell("Éclaireur spécialisé", "Neutre"),
                         #Spell("Éventrail", "Neutre"),
                         ]
         self.affutage = 0

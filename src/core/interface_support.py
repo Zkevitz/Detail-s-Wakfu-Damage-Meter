@@ -7,8 +7,9 @@ import tkinter.messagebox as msgbox
 import tkinter.filedialog as filedialog
 import core.interface
 from core.utils import formatNumber
-from core.extractData import extractData, loadHeroesFromJson
+from core.extractData import extractData, loadHeroesFromJson, getEnnemyEntitieFromJson
 from functools import partial
+from collections import Counter
 import os
 import logging
 
@@ -76,6 +77,7 @@ def displayDataOnListFirstTime(PlayedHeroes):
         for hero in sorted_heroes:
             _w1.Listbox1.insert("end", f"{hero.ShieldRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfShield)}")
             _w1.Listbox1.itemconfig("end", fg="black", bg=hero.color)
+
 def switchButton(mode):
     logger.debug(f"mode = {mode}")
     if _w1 is None:
@@ -150,6 +152,14 @@ def ShowHistory():
     window.attributes("-alpha", 0.8)
     window.lift()
 
+    def toggleHistory(frameDetails, ToggleBtn):
+        if frameDetails.winfo_viewable():
+            frameDetails.grid_remove()
+            ToggleBtn.configure(text="▸")
+        else :
+            frameDetails.grid()
+            ToggleBtn.configure(text="▾")
+
     scrolableFrame = ctk.CTkScrollableFrame(window, label_text="Rapport History")
     scrolableFrame.pack(fill="both", expand=True, padx=10, pady=10)
     fichiers = sorted(
@@ -160,8 +170,14 @@ def ShowHistory():
     for i, nom_fichier in enumerate(fichiers):
         chemin_complet = os.path.join("Rapport", nom_fichier)
         if os.path.isfile(chemin_complet):
+            Ennemies = getEnnemyEntitieFromJson(chemin_complet)
+
+            ToggleButton = ctk.CTkButton(scrolableFrame, text="▸", width=20, command=None)
+            ToggleButton.grid(row=i*2, column=0, padx=(5, 0))
+
             label = ctk.CTkLabel(scrolableFrame, text=nom_fichier)
-            label.grid(row=i, column=0, sticky="w", padx=10, pady=5)
+            label.grid(row=i*2, column=1, sticky="w", padx=10, pady=5)
+
 
             bouton = ctk.CTkButton(
                 scrolableFrame,
@@ -170,7 +186,22 @@ def ShowHistory():
                 height=10,
                 command=lambda p=chemin_complet: [loadHeroesFromJson(p, PlayedHeroes), displayDataOnListFirstTime(PlayedHeroes)]
             )
-            bouton.grid(row=i, column=1, padx=10, pady=5, sticky="e")
+            bouton.grid(row=i*2, column=2, padx=10, pady=5, sticky="e")
+
+            frameDetails = ctk.CTkFrame(scrolableFrame)
+            frameDetails.grid(row=i*2+1, column=1, columnspan=2, sticky="w", padx=40, pady=(0, 10))
+            frameDetails.grid_remove()
+            counts = Counter(e["name"] for e in Ennemies)
+            for name, count in counts.items():
+                ctk.CTkLabel(frameDetails, text=f"{name} x {count}").pack(anchor="w", pady=1)
+            #ctk.CTkLabel(frameDetails, text=f"Détails de {nom_fichier}").pack(anchor="w", pady=2)
+            #ctk.CTkLabel(frameDetails, text=f"Chemin : {chemin_complet}").pack(anchor="w", pady=2)
+            #ctk.CTkLabel(frameDetails, text=f"Taille : {os.path.getsize(chemin_complet)} octets").pack(anchor="w", pady=2)
+            ToggleButton.configure(command=lambda f=frameDetails, b=ToggleButton: toggleHistory(f, b))
+
+
+        
+
 def onWindowClose():
     root.destroy()
     sys.exit()

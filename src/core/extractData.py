@@ -119,3 +119,16 @@ def loadHeroesFromJson(input_filename: str, playedHeroes: list[Hero]) -> list[He
 
         playedHeroes.append(hero)
     return (playedHeroes)
+
+def getEnnemyEntitieFromJson(json_path) :
+    with open(json_path, 'r', encoding='utf-8') as f :
+        data = json.load(f)
+
+    if isinstance(data, list):
+        ennemies = [
+            entity for entity in data 
+            if not entity.get("spells") and not entity.get("className")
+        ]
+    else:
+        ennemies = []
+    return ennemies

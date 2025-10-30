@@ -1,7 +1,7 @@
 from Hero.spell import Spell
 from Hero.hero import Hero
 class FECA(Hero):
-    color = "#CCCC00"
+    color = "#8FE3D3"
     breed = 1
     def __init__(self):
         self.spells = [Spell("Fécalistofedes", "Feu"),

@@ -12,6 +12,10 @@ PlayedHeroes = []
 lastHeroes = None
 lastIndirectHeroes = None
 
+def EndOfTurn(line):
+    global lastHeroes
+    lastHeroes = None
+    
 def parseSpellInLine(line):
     global lastHeroes, lasIndirectHeroes
     pattern = re.compile(
