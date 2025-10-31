@@ -29,13 +29,11 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
 
 les classes suivante n'ont pas encore leurs effets passif integré et testé 
--sram 
--huppermage
 -osamodas
 -steamer 
 
 le reste des classes est soit completement geré soit en progression 
-Ce travaille demande du temps, un acces aux classes et une certaine connaissances de celle-ci, ce que je n'ai pas forcement, il est donc possible que certain oublis ou meconnaissance de ma part soit encore present 
+Ce travaille demande du temps, un acces aux classes et une certaine connaissances de celle-ci, ce que je n'ai pas forcement, il est donc possible que certain oublis ou meconnaissance de ma part soit encore present
 
 ## 🔒 Limitations
 la pluspart des glyphes posé au sol ne peuvent pas etre tracker comme il le faut car aucun indicateurs n'est present dans le chat (voir section [Effets indirects](#-effets-indirects)).
@@ -48,6 +46,7 @@ voici une liste detaillé de tous les effets que je n'arrive pas encore a tracke
 - Ne fonctionne pas avec les degats de la Trainée de Wakfu poser par le sort **Flux torrentiel** de l'eliotrope
 - Ne fonctionne pas avec le heal du **passif Protecteur du troupeau** Feca
 - Ne fonction pas avec les degats du **passif Mur de poudre** du roublard
+- Ne fonctionne pas avec es degats de la **Marque Letal** du double sram
 - Les **réanimations** n’affichent pas de valeur dans les logs.
 
 ---

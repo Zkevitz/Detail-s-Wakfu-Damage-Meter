@@ -93,7 +93,7 @@ def NewHero(line) :
     if matchNumber :
         classNumber = int(matchNumber.group(1))
         fighter_name = fighter_name.group(1)
-        if classNumber > 0 and classNumber <= 18 and AI == False:
+        if classNumber > 0 and classNumber <= 19 and AI == False:
             for hero in GameHeroes :
                 if hero.breed == classNumber :
                     hero.name = fighter_name
