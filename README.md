@@ -29,7 +29,6 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
 
 les classes suivante n'ont pas encore leurs effets passif integré et testé 
--ouginak 
 -sram 
 -huppermage
 -osamodas
