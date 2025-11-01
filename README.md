@@ -55,6 +55,8 @@ voici une liste detaillé de tous les effets que je n'arrive pas encore a tracke
 
 ⚠️ **Attention :** si vous lancez l’application **après** être entré en combat, le combat en cours **ne sera pas enregistré**.  
 
+⚠️ **Attention :** Les degats sur alliés sont desactivé
+
 Le programme lit le fichier de logs du jeu, généralement situé à l’adresse suivante :  
 ``"C:\Users\{$USER}\AppData\Roaming\zaap\gamesLogs\wakfu\logs\wakfu.log"`` 
 en ne considérant **que les lignes commençant par** `INFO`.

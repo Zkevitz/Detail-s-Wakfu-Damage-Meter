@@ -26,14 +26,14 @@ def update_hero_rankings(heroes: list["Hero"]) -> None:
         hero.ShieldRank = rank
 
     
-def extractPlayerName(line):
-    infoLogger.debug(f"Line: '{line}'")
-    match = re.search(r"^\s*([\wÀ-ÖØ-öø-ÿ'-]+)", line)
-    infoLogger.debug(f"Match: {match}")
-    if match:
-        pseudo = match.group(1)
-        #infoLogger.info(f"Player name extracted: {pseudo}")
-        return pseudo
+# def extractPlayerName(line):
+#     infoLogger.debug(f"Line: '{line}'")
+#     match = re.search(r"^\s*([\wÀ-ÖØ-öø-ÿ'-]+)", line)
+#     infoLogger.debug(f"Match: {match}")
+#     if match:
+#         pseudo = match.group(1)
+#         #infoLogger.info(f"Player name extracted: {pseudo}")
+#         return pseudo
 
 def formatNumber(num: int) -> str:
     """
@@ -62,7 +62,7 @@ def formatNumber(num: int) -> str:
         return str(num)
 
 def checkIndirectCompatibility(IncomingValue, PlayedHeroes):
-    print(f"Debug : {IncomingValue}")
+    print(f"Debug : Enter in Indirect Check ->  {IncomingValue}")
     for hero in PlayedHeroes :
         for spell in hero.spells:
             if spell.name == IncomingValue:

@@ -43,7 +43,8 @@ eliotrope = ELIOTROPE()
 huppermage = HUPPERMAGE()
 actualFight = None
 GameHeroes = [iop, cra, eniripsa, xelor, enutrof, sacrieur, zobal,
-             feca, steamer, pandawa, ecaflip, sadida, sram, roublard, ouginak, eliotrope, huppermage, osamodas]
+             feca, steamer, pandawa, ecaflip, sadida, sram, roublard,
+              ouginak, eliotrope, huppermage, osamodas]
 EnnemyList = []
 
 def handleNewFight():
@@ -51,6 +52,7 @@ def handleNewFight():
     from core.interface_support import resetListbox
     if PlayedHeroes:
         for hero in PlayedHeroes :
+            hero.InvocList.clear()
             hero.clear()
         PlayedHeroes.clear()
     if EnnemyList:
@@ -76,6 +78,7 @@ def handleInvoc(line):
                 hero.InvocList.append(Invo(InvocName.group(1).strip()))
                 logger.debug(f"{InvocName.group(1)} ?!=? {matchName}")
                 if InvocName.group(1).strip() == "Lapino" :
+                    logger.debug(f"Lapino invoquer auto ajout du Super Lapino")
                     hero.InvocList.append(Invo("Super Lapino"))
                 elif InvocName.group(1).strip() == "Dark Lapino":
                     hero.InvocList.append(Invo("Super Dark Lapino"))
@@ -85,19 +88,24 @@ def NewHero(line) :
     from core.calc import PlayedHeroes
     matchNumber = re.search(r"breed\s*:\s*(\d+)", line)
     fighter_name = re.search(r'fightId=[0-9]* (.*?) breed : ', line)
+    id = re.search(r"breed\s*:\s*\d+\s*\[\s*(-?\d+)\s*\]", line)
+    id = id.group(1)
     AI = isControlledByAI(line)
-    for hero in PlayedHeroes :
-        logger.debug(f"Debug : {hero.name} =?!= {fighter_name}")
-        if hero.name == fighter_name.group(1) :
-            return
+    fighter_name = fighter_name.group(1)
     if matchNumber :
         classNumber = int(matchNumber.group(1))
-        fighter_name = fighter_name.group(1)
         if classNumber > 0 and classNumber <= 19 and AI == False:
+            for hero in PlayedHeroes :
+                logger.debug(f"Debug : {hero.name} =?!= {fighter_name}")
+                if hero.name == fighter_name :
+                    return
             for hero in GameHeroes :
                 if hero.breed == classNumber :
                     hero.name = fighter_name
                     PlayedHeroes.append(hero)
         else :
-            EnnemyList.append(Ennemy(fighter_name, classNumber))
+            for Ennemies in EnnemyList :
+                if Ennemies.id == id:
+                    return
+            EnnemyList.append(Ennemy(fighter_name, classNumber, id))
             #TO DO

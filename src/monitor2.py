@@ -6,6 +6,7 @@ import re
 from core.calc import handle_spell, parseSpellInLine, handleShield, ResetCalc, EndOfTurn
 from Hero.GameHeroes import handleNewFight, NewHero, GenerateRapport, handleInvoc
 import logging
+import sys
 
 # Configuration simple
 logging.basicConfig(

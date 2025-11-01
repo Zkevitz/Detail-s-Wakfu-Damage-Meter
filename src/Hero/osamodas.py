@@ -4,5 +4,6 @@ class OSAMODAS(Hero):
     color = "#FF0000"
     breed = 2
     def __init__(self):
-        self.spells = []
+        self.spells = [Spell("Aura lunaire", "Neutre"),
+                        Spell("Aura Solaire", "Neutre")]
         Hero.__init__(self, "OSAMODAS")

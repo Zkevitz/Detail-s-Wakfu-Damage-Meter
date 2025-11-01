@@ -21,8 +21,8 @@ class Toplevel1:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
         top is the toplevel containing window.'''
-        largeur = 350
-        hauteur = 250
+        largeur = 300
+        hauteur = 200
         screen_width = top.winfo_screenwidth()
         screen_height = top.winfo_screenheight()
         x = screen_width - largeur - 10
@@ -42,7 +42,7 @@ class Toplevel1:
         self.Listbox1.configure(background="grey")
         self.Listbox1.configure(disabledforeground="#a3a3a3")
         self.Listbox1.configure(exportselection="0")
-        grande_police = font.Font(family="Segoe UI", size=14, weight="bold")
+        grande_police = font.Font(family="Segoe UI", size=12, weight="bold")
         self.Listbox1.configure(font=grande_police)
         self.Listbox1.configure(foreground="black")
         self.Listbox1.configure(highlightbackground="skyblue1")

@@ -1,4 +1,4 @@
-from core.utils import TotalAmountOfDamage, TotalAmountOfHeal, extractPlayerName, update_hero_rankings, checkIndirectCompatibility
+from core.utils import TotalAmountOfDamage, TotalAmountOfHeal, update_hero_rankings, checkIndirectCompatibility
 from core.interface_support import updateHeroValue
 from Hero.GameHeroes import GameHeroes
 import re
@@ -26,12 +26,8 @@ def parseSpellInLine(line):
     match = pattern.search(line)
     if match :
         CurrentName = match.group("name").strip()
-        #action = match.group("action")
         spellMatch = match.group("spell")
-        #logger.debug(f"debug new parsespell with CAC {CurrentName} - {action} - {spellMatch}")
         for hero in PlayedHeroes:
-            for Invo in hero.InvocList :
-                logger.debug(f"nom de l'invoc {Invo.name}")
             logger.debug(f"currentName {CurrentName}")
             if CurrentName == hero.name or hero.InvocList and any(CurrentName == invo.name for invo in hero.InvocList):
                 lastHeroes = hero
@@ -48,13 +44,15 @@ def parseSpellInLine(line):
 def parseDamageInLine(line):
     global lastHeroes, lastIndirectHeroes
     parsedIndirect = None
+    Target = re.search(r"\[Information \(combat\)\]\s+([^:]+):\s*-[\d\s ]+PV", line)
+    if Target:
+        TargetName = Target.group(1).strip()
+        if lastHeroes and any(TargetName == hero.name for hero in PlayedHeroes):
+            return
+
     match = re.search(r"([+-])\s*([\d\s ]+)\s*PV", line)
     element = re.search(r'PV\s*\(([^)]+)\)', line)
     indirect = re.search(r'\(([^()]*)\)(?!.*\([^()]*\))', line)
-    Target = re.search(r"\[Information \(combat\)\]\s+([^:]+):\s*-[\d\s ]+PV", line)
-
-    if Target and lastHeroes and lastHeroes.name == Target.group(1).strip() :
-        return
     if match:
         sign = match.group(1)   
         value = re.sub(r'\D', '', match.group(2))  # nettoyage espaces
@@ -86,7 +84,6 @@ def parseShieldInLine(line):
     if indirect :
         parsedIndirect = indirect.group(1)
         indirectHero = checkIndirectCompatibility(parsedIndirect, PlayedHeroes)
-        print(f"Debug WTF PK CA RENVOIE UN SORT : {indirectHero}")
         if indirectHero :
             lastIndirectHeroes = indirectHero
         else :
