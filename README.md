@@ -4,6 +4,10 @@
 Outil de comptage des dégâts développé en **Python** pour le jeu **Wakfu**, édité par **Ankama Games**.  
 L’application fonctionne entièrement grâce à la lecture des **logs du jeu**.
 
+
+## 📫 Contact
+[![Discord Badge](https://img.shields.io/badge/Discord-Zkevitz-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/users/330002117987270663)
+
 ---
 
 ## 📚 Sommaire
@@ -15,6 +19,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 - [Open Source](#-open-source)
 - [Effets indirects](#-effets-indirects)
 - [Historique](#-Historique)
+- [Contributions](#-Contributions)
 
 ---
 
@@ -28,7 +33,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
 
-les classes suivante ont moins été tester que les autres (mais semble fonctionné) :
+les classes suivante ont été moins testé que les autres (mais semble fonctionner) :
 - Sram
 - Osamodas 
 - Sadida 
@@ -45,7 +50,7 @@ la pluspart des glyphes posé au sol ne peuvent pas etre tracker comme il le fau
 
 voici une liste detaillé de tous les effets qui ne sont pas encore tracker : 
 
-- Ne fonctionne pas sur **le boss Chene-Mou** les degats retirant de l'armure en non des PVs
+- Ne fonctionne pas sur **le boss Chene-Mou** les degats retirant de l'armure et non des PVs
 (facilement resolvable j'attend juste de voir si d'autres cas identiques se presente)
 - Ne fonctionne pas en **PvP** (impossible de distinguer Alliés / Ennemis).  
 - Ne fonctionne pas avec les **glyphes Féca**.
@@ -151,3 +156,12 @@ Actuellement, l’application permet d’afficher l’historique des anciens com
 
 Un boutton Toggle est disponible pour detailler les monstres affrontés 
 et un boutton Ouvrir est disponible pour revoir dans le details le combat en question
+
+## Contributions 
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+
+- Signaler des bugs
+- Proposer des améliorations
+- Ajouter de nouvelles fonctionnalités
+- Améliorer la documentation
