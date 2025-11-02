@@ -24,6 +24,7 @@ class STEAMER(Hero):
                         Spell("Tir de distance", "Neutre"),
                         Spell("Tir d'alignement", "Neutre"),
                         Spell("Surtension", "Neutre"),
-                        Spell("Stratégie robotique", "Neutre")
+                        Spell("Stratégie robotique", "Neutre"),
+                        Spell("Roues chaudes", "Neutre") # a verifier 
                         ]
         Hero.__init__(self, "STEAMER")

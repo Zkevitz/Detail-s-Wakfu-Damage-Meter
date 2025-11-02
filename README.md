@@ -28,25 +28,33 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
 
-les classes suivante n'ont pas encore leurs effets passif integré et testé 
--osamodas
--steamer 
+les classes suivante ont moins été tester que les autres (mais semble fonctionné) :
+- Sram
+- Osamodas 
+- Sadida 
+- Steamer 
+- roublard 
+- eliotrope
+- ecaflip
+- ouginak
 
-le reste des classes est soit completement geré soit en progression 
-Ce travaille demande du temps, un acces aux classes et une certaine connaissances de celle-ci, ce que je n'ai pas forcement, il est donc possible que certain oublis ou meconnaissance de ma part soit encore present
+le travail des classes au cas par cas demande du temps et un acces au classe que je n'ai pas forcement 
 
 ## 🔒 Limitations
 la pluspart des glyphes posé au sol ne peuvent pas etre tracker comme il le faut car aucun indicateurs n'est present dans le chat (voir section [Effets indirects](#-effets-indirects)).
 
-voici une liste detaillé de tous les effets que je n'arrive pas encore a tracker : 
+voici une liste detaillé de tous les effets qui ne sont pas encore tracker : 
+
+- Ne fonctionne pas sur **le boss Chene-Mou** les degats retirant de l'armure en non des PVs
+(facilement resolvable j'attend juste de voir si d'autres cas identiques se presente)
 - Ne fonctionne pas en **PvP** (impossible de distinguer Alliés / Ennemis).  
 - Ne fonctionne pas avec les **glyphes Féca**.
 - Ne fonctionne pas avec la glyphe nature morte de l'eniripsa.
 - Ne fonctionne pas avec le **passif Pucif** de l’Écaflip (voir section [Effets indirects](#-effets-indirects)).
 - Ne fonctionne pas avec les degats de la Trainée de Wakfu poser par le sort **Flux torrentiel** de l'eliotrope
 - Ne fonctionne pas avec le heal du **passif Protecteur du troupeau** Feca
-- Ne fonction pas avec les degats du **passif Mur de poudre** du roublard
-- Ne fonctionne pas avec es degats de la **Marque Letal** du double sram
+- Ne fonctionne pas avec les degats du **passif Mur de poudre** du roublard
+- Ne fonctionne pas avec les degats de la **Marque Letal** du double sram
 - Les **réanimations** n’affichent pas de valeur dans les logs.
 
 ---
@@ -86,7 +94,7 @@ Ensuite, l’application parcourt toutes les lignes suivantes :
 ## 💾 Exécutable
 
 Vous pouvez télécharger la version exécutable à l’adresse suivante :  
-pas encore disponible 
+(https://github.com/Zkevitz/Detail-s-Wakfu-Damage-Meter/releases/tag/Alpha1.0)
 
 ## Open-Source
 

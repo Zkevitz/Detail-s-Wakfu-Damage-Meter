@@ -4,6 +4,7 @@ import random
 from Hero.hero import Hero
 from Hero.GameHeroes import GameHeroes
 import logging 
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +55,7 @@ def extractData(playedHeroes: Iterable, EnnemyList : Iterable) :
     data_list = []
     numero = random.randint(1000, 9999)
     output_filename = f"Rapport/{EnnemyList[0].name}_{numero}.json"
+    os.makedirs("Rapport", exist_ok=True)
     for hero in playedHeroes:
         # Tenter d'obtenir un dict propre à partir de l'objet hero
         # On utilise d'abord __dict__ si disponible, sinon on tente une conversion générique

@@ -1,12 +1,15 @@
 from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler
 from pathlib import Path
+import os
+import platform
 import time
 import re 
 from core.calc import handle_spell, parseSpellInLine, handleShield, ResetCalc, EndOfTurn
 from Hero.GameHeroes import handleNewFight, NewHero, GenerateRapport, handleInvoc
 import logging
 import sys
+import tkinter.filedialog as filedialog
 
 # Configuration simple
 logging.basicConfig(
@@ -113,13 +116,37 @@ class MyHandler(FileSystemEventHandler):
         if Path(event.src_path).name == self.file.name:
             logging.info(f"{self.file.name} supprimé")
             self.position = 0
-            
-file = "/Users/Zkevitz/AppData/Roaming/zaap/gamesLogs/wakfu/logs/wakfu.log"
-#file = "/mnt/c/Users/Zkevitz/AppData/Roaming/zaap/gamesLogs/wakfu/logs/wakfu.log"
+
+def getWakfuLogsPath() :
+    system = platform.system().lower()
+    print(system)
+    if system == "windows" : 
+        base = Path(os.getenv("APPDATA", Path.home() / "AppData/Roming"))
+        print(f"{base}")
+
+    # MACOS TO DO
+    elif system == "darwin":  # macOS
+        base = Path.home() / "Library/Application Support"
+    
+    #LINUX/AUTRE TO DO
+    else:  # Linux / autres Unix
+        # Exemple : ~/.config/zaap/gamesLogs/wakfu/logs/wakfu.log
+        base = Path(os.getenv("XDG_CONFIG_HOME", Path.home() / ".config"))
+
+    return base / "zaap" / "gamesLogs" / "wakfu" / "logs" / "wakfu.log"
+
+file = getWakfuLogsPath()
+print(f"{file}")
 fileCheck = Path(file)
 if not fileCheck.exists():
-    logging.info("le fichier n'existe pas")
-    sys.exit()
+    file = filedialog.askopenfilename(
+        title="Trouvez votre fichier wakfu.log",
+    )
+    print(f"fichier choisis {file}  or {Path(file)}")
+    logging.info(f"fichier choisis par l'utilisateur : {file}")
+    fileCheck = Path(file)
+    if not file :
+        sys.exit()
 from core import interface_support
 event_handler = MyHandler(file)
 observer = PollingObserver()
