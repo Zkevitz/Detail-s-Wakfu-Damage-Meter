@@ -33,7 +33,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
 
-les classes suivante ont été moins testé que les autres (mais semble fonctionner) :
+les classes suivante ont été moins testé que les autres (mais semble tres bien fonctionner) :
 - Sram
 - Osamodas 
 - Sadida 
@@ -43,7 +43,7 @@ les classes suivante ont été moins testé que les autres (mais semble fonction
 - ecaflip
 - ouginak
 
-le travail des classes au cas par cas demande du temps et un acces au classe que je n'ai pas forcement 
+le travail des classes au cas par cas demande du temps et un acces aux classes que je n'ai pas 
 
 ## 🔒 Limitations
 la pluspart des glyphes posé au sol ne peuvent pas etre tracker comme il le faut car aucun indicateurs n'est present dans le chat (voir section [Effets indirects](#-effets-indirects)).

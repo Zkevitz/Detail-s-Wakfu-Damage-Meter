@@ -10,6 +10,7 @@ from core.utils import formatNumber
 from core.extractData import extractData, loadHeroesFromJson, getEnnemyEntitieFromJson
 from functools import partial
 from collections import Counter
+from core.image import trashIcon
 import os
 import logging
 
@@ -148,10 +149,22 @@ def ShowHistory():
     from core.calc import PlayedHeroes
     window = ctk.CTkToplevel(root)
     window.title("History")
+    window.geometry("360x300")
     window.attributes('-topmost', True)
     window.attributes("-alpha", 0.8)
     window.lift()
+    rows = {}
 
+    def DeleteRapport(index, chemin_complet) :
+        if os.path.exists(chemin_complet):
+            os.remove(chemin_complet)
+            logger.debug(f"supression du fichier --> : {chemin_complet}")
+        
+        for widget in rows[index].values():
+            if hasattr(widget, "destroy"):
+                widget.destroy()
+
+        
     def toggleHistory(frameDetails, ToggleBtn):
         if frameDetails.winfo_viewable():
             frameDetails.grid_remove()
@@ -172,13 +185,15 @@ def ShowHistory():
         if os.path.isfile(chemin_complet):
             Ennemies = getEnnemyEntitieFromJson(chemin_complet)
 
-            ToggleButton = ctk.CTkButton(scrolableFrame, text="▸", width=20, command=None)
+            ToggleButton = ctk.CTkButton(scrolableFrame, text="▸", width=10, height=10, fg_color="transparent", hover_color="#2615c0", command=None)
             ToggleButton.grid(row=i*2, column=0, padx=(5, 0))
-
+            nom_fichier = nom_fichier[:-5]
+            if len(nom_fichier) >= 27 :
+                nom_fichier = nom_fichier[:27]
             label = ctk.CTkLabel(scrolableFrame, text=nom_fichier)
-            label.grid(row=i*2, column=1, sticky="w", padx=10, pady=5)
-
-
+            label.grid(row=i*2, column=2, sticky="w", padx=5, pady=0)
+            DeleteButton = ctk.CTkButton(scrolableFrame, image=trashIcon, text="", width=10, height=10, fg_color="transparent", hover_color="#ff6666", command=lambda idx=i , f=chemin_complet : DeleteRapport(idx, f))
+            DeleteButton.grid(row=i*2, column=1, sticky="w", padx=0, pady=0)
             bouton = ctk.CTkButton(
                 scrolableFrame,
                 text="Ouvrir",
@@ -186,7 +201,7 @@ def ShowHistory():
                 height=10,
                 command=lambda p=chemin_complet: [loadHeroesFromJson(p, PlayedHeroes), displayDataOnListFirstTime(PlayedHeroes)]
             )
-            bouton.grid(row=i*2, column=2, padx=10, pady=5, sticky="e")
+            bouton.grid(row=i*2, column=3, padx=0, pady=0, sticky="w")
 
             frameDetails = ctk.CTkFrame(scrolableFrame)
             frameDetails.grid(row=i*2+1, column=1, columnspan=2, sticky="w", padx=40, pady=(0, 10))
@@ -198,6 +213,15 @@ def ShowHistory():
             #ctk.CTkLabel(frameDetails, text=f"Chemin : {chemin_complet}").pack(anchor="w", pady=2)
             #ctk.CTkLabel(frameDetails, text=f"Taille : {os.path.getsize(chemin_complet)} octets").pack(anchor="w", pady=2)
             ToggleButton.configure(command=lambda f=frameDetails, b=ToggleButton: toggleHistory(f, b))
+
+            rows[i] = {
+                "path": chemin_complet,
+                "toggle": ToggleButton,
+                "label": label,
+                "delete": DeleteButton,
+                "open": bouton,
+                "details": frameDetails
+            }
 
 
         
