@@ -31,7 +31,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 
 ## Etat-Actuel 
 
-actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte 
+actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte
 
 les classes suivante ont été moins testé que les autres (mais semble tres bien fonctionner) :
 - Sram
@@ -42,6 +42,9 @@ les classes suivante ont été moins testé que les autres (mais semble tres bie
 - eliotrope
 - ecaflip
 - ouginak
+
+Actuellement, l’application fonctionne uniquement si vous jouez avec un ou deux comptes (la gestion de plus de deux comptes sera ajoutée ultérieurement).
+Le programme peut avoir certains comportements indéterminés si vous essayez de jouer avec deux comptes dans des combats différents.
 
 le travail des classes au cas par cas demande du temps et un acces aux classes que je n'ai pas 
 
@@ -144,7 +147,7 @@ Cependant :
 
 Les glyphes de maniere génerale et les heal du passif 'Pucif' de l’Écaflip,
 ne peuvent actuellement pas être associés correctement à leur source.
-
+ 
 Cela peut egalement poser des problèmes d’attribution lorsque plusieurs instances d’une même classe sont présentes dans un combat.
 
 

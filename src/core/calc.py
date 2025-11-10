@@ -10,14 +10,37 @@ logger = logging.getLogger(__name__)
 PlayedHeroes = []
 
 lastHeroes = None
+lastTurnHeroes = None 
 lastIndirectHeroes = None
+turnPass = 0
+actualTurn = 0
 
 def EndOfTurn(line):
-    global lastHeroes
+    global lastHeroes, turnPass, lastTurnHeroes
+
+    turnPass += 1
+    NbOfHeroes = len(PlayedHeroes)
+    ActualIni = (turnPass - 1) % NbOfHeroes + 1
+    if lastTurnHeroes and lastTurnHeroes.ini == 0 :
+        lastTurnHeroes.setIni(ActualIni)
+        lastTurnHeroes.PlayedTurn = int(((turnPass - 1) + NbOfHeroes) / NbOfHeroes)
+        logger.debug(f"initiative donné a {lastTurnHeroes.name} -> {lastTurnHeroes.ini} avec un PlayedTurn initial de {lastTurnHeroes.PlayedTurn}")
+    else :
+        for hero in PlayedHeroes :  
+            if hero.ini == ActualIni:
+                hero.PlayedTurn += 1
+                logger.debug(f"joueur qui vient de jouer est {hero.name} avec un total de tour de {hero.PlayedTurn}")
+    lastTurnHeroes = None
     lastHeroes = None
-    
+    logger.debug(f"nombre de tour passé -> : {turnPass} --> nombre de tour reel {turnPass / len(PlayedHeroes)} et initiative actual {turnPass % len(PlayedHeroes)}")
+    logger.debug(f"longueur de playedHeroes {len(PlayedHeroes)}")
+    update_hero_rankings(PlayedHeroes)
+    updateHeroValue(PlayedHeroes)
+
+    #TRAVAILLER SUR LE CAS DE MORT D'UN POTENTIEL JOUEUR 
+    # ATTENTION DERNIERE PERSONNE A JOUER VA AVOIR CES STATS PAR TOUR UN TOUR EN MOINS QUE CE QU'IL FAUT 
 def parseSpellInLine(line):
-    global lastHeroes, lasIndirectHeroes
+    global lastHeroes, lasIndirectHeroes, lastTurnHeroes
     pattern = re.compile(
         r"\b(?P<name>[A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ][\w\-]*(?:\s+[A-ZÉÈÊÂÎÔÛÄËÏÖÜÀÇ]?[a-zéèêëàùûüîïôöç'\-]+)*)\s+"
         r"(?P<action>lance le sort|utilise l'objet)\s+"
@@ -31,6 +54,7 @@ def parseSpellInLine(line):
             logger.debug(f"currentName {CurrentName}")
             if CurrentName == hero.name or hero.InvocList and any(CurrentName == invo.name for invo in hero.InvocList):
                 lastHeroes = hero
+                lastTurnHeroes = hero
                 spell = hero.getSpell(spellMatch)
                 if spell :
                     logger.debug(f"used spell {spell.name} by {hero.name}")
@@ -163,5 +187,8 @@ def handleShield(line) :
     updateHeroValue(PlayedHeroes)
 
 def ResetCalc():
+    global lastHeroes, lastIndirectHeroes, turnPass, lastTurnHeroes
     lastHeroes = None
     lastIndirectHeroes = None
+    turnPass = 0
+    lastTurnHeroes = None

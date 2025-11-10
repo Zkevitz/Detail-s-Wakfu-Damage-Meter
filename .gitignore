@@ -8,3 +8,4 @@ src/dist/
 src/monitor2.spec
 src/core/__pycache__/
 src/Hero/__pycache__/
+src/web/

@@ -1,11 +1,8 @@
 import sys
-import tkinter as tk
-import tkinter.ttk as ttk
 from tkinter.constants import *
 import customtkinter as ctk
 import tkinter.messagebox as msgbox 
 import tkinter.filedialog as filedialog
-import core.interface
 from core.utils import formatNumber
 from core.extractData import extractData, loadHeroesFromJson, getEnnemyEntitieFromJson
 from functools import partial
@@ -16,7 +13,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 DisplayMode = "Damage"
-#_debug = True 
+
+mode_map = {
+    "Damage": ("DamageRank", "TotalAmountOfDamage"),
+    "Heal": ("HealRank", "TotalAmountOfHeal"),
+    "Shield": ("ShieldRank", "TotalAmountOfShield"),
+}
 
 def resetButton():
     if _w1 is None:
@@ -45,39 +47,41 @@ def displayDataOnList(PlayedHeroes):
     if _w1.Listbox1.size() == 0 :
         displayDataOnListFirstTime(PlayedHeroes)
         return
-    if DisplayMode == "Damage" :
-        for hero in PlayedHeroes:
-            _w1.Listbox1.delete(hero.DamageRank - 1)
-            _w1.Listbox1.insert(hero.DamageRank - 1 , f"{hero.DamageRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfDamage)}")
-            _w1.Listbox1.itemconfig(hero.DamageRank - 1, fg="black", bg=hero.color)
-    elif DisplayMode == "Heal" :
-        for hero in PlayedHeroes:
-            _w1.Listbox1.delete(hero.HealRank - 1)
-            _w1.Listbox1.insert(hero.HealRank - 1 , f"{hero.HealRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfHeal)}") 
-            _w1.Listbox1.itemconfig(hero.HealRank - 1, fg="black", bg=hero.color)
-    elif DisplayMode == "Shield" :
-        for hero in PlayedHeroes:
-            _w1.Listbox1.delete(hero.ShieldRank - 1)
-            _w1.Listbox1.insert(hero.ShieldRank - 1 , f"{hero.ShieldRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfShield)}") 
-            _w1.Listbox1.itemconfig(hero.ShieldRank - 1, fg="black", bg=hero.color)
+
+    if DisplayMode not in mode_map:
+        logger.warning(f"DisplayMode inconnu : {DisplayMode}")
+        return
+    
+    rank_attr, total_attr = mode_map[DisplayMode]
+
+    for hero in PlayedHeroes:
+        rank = getattr(hero, rank_attr)
+        total = getattr(hero, total_attr)
+        perturn = total / hero.PlayedTurn if hero.ini > 0 else "(??)"
+
+        text = f"{rank} - {hero.name} [{hero.className}] : {formatNumber(total)} / {formatNumber(perturn) if perturn != '(??)' else perturn}"
+        _w1.Listbox1.delete(rank - 1)
+        _w1.Listbox1.insert(rank - 1, text)
+        _w1.Listbox1.itemconfig(rank - 1, fg="black", bg=hero.color)
+        logger.debug(f"{hero.name} ({DisplayMode}) : total={total}, tours={hero.PlayedTurn}, rank={rank}")
+
 
 def displayDataOnListFirstTime(PlayedHeroes):
     resetListbox()
-    if DisplayMode == "Damage" :
-        sorted_heroes = sorted(PlayedHeroes, key=lambda h: h.DamageRank)
-        for hero in sorted_heroes:
-            _w1.Listbox1.insert("end", f"{hero.DamageRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfDamage)}")
-            _w1.Listbox1.itemconfig("end", fg="black", bg=hero.color)
-    elif DisplayMode == "Heal" :
-        sorted_heroes = sorted(PlayedHeroes, key=lambda h: h.HealRank)
-        for hero in sorted_heroes:
-            _w1.Listbox1.insert("end", f"{hero.HealRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfHeal)}")
-            _w1.Listbox1.itemconfig("end", fg="black", bg=hero.color)
-    elif DisplayMode == "Shield" :
-        sorted_heroes = sorted(PlayedHeroes, key=lambda h: h.ShieldRank)
-        for hero in sorted_heroes:
-            _w1.Listbox1.insert("end", f"{hero.ShieldRank} - {hero.name} [{hero.className}] : {formatNumber(hero.TotalAmountOfShield)}")
-            _w1.Listbox1.itemconfig("end", fg="black", bg=hero.color)
+    if DisplayMode not in mode_map:
+        logger.warning(f"DisplayMode inconnu : {DisplayMode}")
+        return
+
+    rank_attr, total_attr = mode_map[DisplayMode]
+    sorted_heroes = sorted(PlayedHeroes, key=lambda h: getattr(h, rank_attr))
+
+    for hero in sorted_heroes:
+        total = getattr(hero, total_attr)
+        rank = getattr(hero, rank_attr)
+        perturn = total / hero.PlayedTurn if hero.ini > 0 else "(??)"
+        text = f"{rank} - {hero.name} [{hero.className}] : {formatNumber(total)} / {formatNumber(perturn) if perturn != '(??)' else perturn}"
+        _w1.Listbox1.insert("end", text)
+        _w1.Listbox1.itemconfig("end", fg="black", bg=hero.color)
 
 def switchButton(mode):
     logger.debug(f"mode = {mode}")
@@ -90,13 +94,6 @@ def switchButton(mode):
     DisplayMode = mode
     from core.calc import PlayedHeroes
     displayDataOnListFirstTime(PlayedHeroes)
-
-def enforce_topmost(root):
-    root.attributes('-topmost', True)
-    root.lift()
-
-def on_focus_out(event):
-    enforce_topmost(event.widget)
 
 def extractdata():
     from core.calc import PlayedHeroes
@@ -135,15 +132,25 @@ def chooseFileForImport():
     else:
         msgbox.showwarning("Aucun fichier", "Aucun fichier n’a été sélectionné.")
         return None
+    
 def open_settings(choice):
     logger.debug(f"{choice} MENU button clicked")
-    if choice == "Reset" :
+    if choice == "🔁" : #old option
         resetButton()
-    elif choice == "History" :
+    elif choice == "📋" :
         ShowHistory()
-    elif choice == "Import Data" :
+    elif choice ==  "✕" :
+        onWindowClose() 
+    elif choice == "🔒": 
+        _w1.lockButton.configure(text="🔓", command=lambda i="🔓" : open_settings(i))
+        _w1.lock = False
+        _w1.resize_grip.place(relx=0.0, rely=1.0, anchor="sw")
+    elif choice == "🔓" :
+        _w1.lockButton.configure(text="🔒", command=lambda i="🔒" : open_settings(i))
+        _w1.lock = True
+        _w1.resize_grip.place_forget()
+    elif choice == "Import Data" : #old option
         importdata()
-    _w1.Parametres.configure(variable=ctk.StringVar(value="Options"))
 
 def ShowHistory():
     from core.calc import PlayedHeroes
@@ -153,8 +160,9 @@ def ShowHistory():
     window.attributes('-topmost', True)
     window.attributes("-alpha", 0.8)
     window.lift()
-    rows = {}
 
+    rows = {}
+    
     def DeleteRapport(index, chemin_complet) :
         if os.path.exists(chemin_complet):
             os.remove(chemin_complet)
@@ -164,6 +172,11 @@ def ShowHistory():
             if hasattr(widget, "destroy"):
                 widget.destroy()
 
+    def DeleteAllRapport():
+        print("bouton appuyer")
+        for i, data in list(rows.items()):
+            DeleteRapport(i, data["path"])
+            
         
     def toggleHistory(frameDetails, ToggleBtn):
         if frameDetails.winfo_viewable():
@@ -173,8 +186,22 @@ def ShowHistory():
             frameDetails.grid()
             ToggleBtn.configure(text="▾")
 
-    scrolableFrame = ctk.CTkScrollableFrame(window, label_text="Rapport History")
+
+    # Parentheader = ctk.CTkFrame(window)
+    # Parentheader.pack(fill="both", expand=True, padx=10, pady=10)
+
+    header = ctk.CTkFrame(window, fg_color="transparent")
+    header.pack(fill="x")
+
+    title = ctk.CTkLabel(header, text="Rapport History", font=("Arial", 16, "bold"))
+    title.pack(side="top", padx=(0, 10))
+
+    DeleteAllButton = ctk.CTkButton(header, text="Delete All", command=DeleteAllRapport)
+    DeleteAllButton.pack(side="top")
+    scrolableFrame = ctk.CTkScrollableFrame(header)
     scrolableFrame.pack(fill="both", expand=True, padx=10, pady=10)
+
+
     fichiers = sorted(
         [f for f in os.listdir("Rapport") if os.path.isfile(os.path.join("Rapport", f))],
         key=lambda f: os.path.getmtime(os.path.join("Rapport", f)),
@@ -197,7 +224,7 @@ def ShowHistory():
             bouton = ctk.CTkButton(
                 scrolableFrame,
                 text="Ouvrir",
-                width=40,
+                width=30,
                 height=10,
                 command=lambda p=chemin_complet: [loadHeroesFromJson(p, PlayedHeroes), displayDataOnListFirstTime(PlayedHeroes)]
             )
@@ -209,9 +236,6 @@ def ShowHistory():
             counts = Counter(e["name"] for e in Ennemies)
             for name, count in counts.items():
                 ctk.CTkLabel(frameDetails, text=f"{name} x {count}").pack(anchor="w", pady=1)
-            #ctk.CTkLabel(frameDetails, text=f"Détails de {nom_fichier}").pack(anchor="w", pady=2)
-            #ctk.CTkLabel(frameDetails, text=f"Chemin : {chemin_complet}").pack(anchor="w", pady=2)
-            #ctk.CTkLabel(frameDetails, text=f"Taille : {os.path.getsize(chemin_complet)} octets").pack(anchor="w", pady=2)
             ToggleButton.configure(command=lambda f=frameDetails, b=ToggleButton: toggleHistory(f, b))
 
             rows[i] = {
@@ -239,6 +263,9 @@ def main(*args):
     root.protocol('WM_DELETE_WINDOW', onWindowClose)
     root.attributes("-alpha", 0.8)
 
+    # POUR RETRAVAILLER LE HEADER
+    root.overrideredirect(True)
+
     root.attributes('-topmost', True)
     root.lift()
     global _top1, _w1
@@ -250,6 +277,3 @@ def main(*args):
 
 if __name__ == '__main__':
     main()
-
-
-#PASSER LA RECONAISANCE DE PERSO GRACE AU NOM ET LAISSE LA COMPARAISON AU SORT UNIQUEMENT POUR L'INDIRECT 

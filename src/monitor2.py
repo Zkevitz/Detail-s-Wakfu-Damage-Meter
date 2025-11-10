@@ -10,6 +10,7 @@ from Hero.GameHeroes import handleNewFight, NewHero, GenerateRapport, handleInvo
 import logging
 import sys
 import tkinter.filedialog as filedialog
+from threading import Thread
 
 # Configuration simple
 logging.basicConfig(
@@ -74,9 +75,9 @@ class MyHandler(FileSystemEventHandler):
                     elif self.MultiMode and self.MultiModeTrim(l) == 1:
                         #logging.debug(f"Debug : MultiMode Line trimmed {l}")
                         continue
-                    elif "eRL:1407" in l:
+                    elif "isControlledByAI" in l:
                         NewHero(l)
-                    elif "[Information (combat)]" in l:
+                    elif self.CreationCount > 0 and "[Information (combat)]" in l:
                         if "lance le sort" in l or "utilise l'objet" in l:
                             parseSpellInLine(l)
                         elif "PV" in l:
@@ -85,16 +86,17 @@ class MyHandler(FileSystemEventHandler):
                             handleShield(l)
                         elif "Invoque un" in l:
                             handleInvoc(l)
-                        elif "secondes reportées pour le tour suivant." in l:
+                        elif "secondes reportées pour le tour suivant." in l or "seconde reportée pour le tour suivant." in l:
                             EndOfTurn(l)
-                    elif self.CreationCount > 0 and "aVi:92" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
-                        self.MultiModeList.clear()
-                        self.MultiMode = False
-                        self.CreationCount = 0
-                        self.countcase = 0
-                        logging.debug(f"fin du combat {self.MultiMode} - {self.CreationCount}")
-                        GenerateRapport()
-                        ResetCalc()
+                        #pas information combat
+                        elif "End fight with id" in l or "Combat terminé, cliquez ici pour rouvrir l'écran de fin de combat." in l: #rajouter fin de combat classique
+                            logging.debug(f"fin du combat {self.MultiMode} - {self.CreationCount}")
+                            self.MultiModeList.clear()
+                            self.MultiMode = False
+                            self.CreationCount = 0
+                            self.countcase = 0
+                            GenerateRapport()
+                            ResetCalc()
             self.position = f.tell()
 
     def on_modified(self, event):
@@ -135,6 +137,14 @@ def getWakfuLogsPath() :
 
     return base / "zaap" / "gamesLogs" / "wakfu" / "logs" / "wakfu.log"
 
+
+shared_data = {
+    'players': {},
+    'in_combat': False,
+    'combat_start_time': None,
+    'combat_history': []
+}
+
 file = getWakfuLogsPath()
 print(f"{file}")
 fileCheck = Path(file)
@@ -152,6 +162,7 @@ event_handler = MyHandler(file)
 observer = PollingObserver()
 observer.schedule(event_handler, str(fileCheck.parent), recursive=False)
 observer.start()
+time.sleep(2)
 interface_support.main()
 
 try:

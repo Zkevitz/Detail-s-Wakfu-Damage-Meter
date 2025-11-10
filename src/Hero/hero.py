@@ -18,6 +18,7 @@ class Hero :
         self.DamageRank = 1
         self.HealRank = 1
         self.InvocList = []
+        self.ini = 0
     
     def getSpell(self, spellMatch):
         for spell in self.spells: 
@@ -27,3 +28,6 @@ class Hero :
         
     def clear(self):
         self.__init__()
+
+    def setIni(self, nb):
+        self.ini = nb

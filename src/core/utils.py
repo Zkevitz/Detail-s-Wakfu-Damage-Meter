@@ -1,5 +1,6 @@
 from typing import List
 import re 
+import sys, os
 def TotalAmountOfDamage(damageList : List[int]):
     total = 0
     for damage in damageList:
@@ -48,6 +49,8 @@ def formatNumber(num: int) -> str:
         1250000   -> "1.2M"
         2000000000 -> "2.0B"
     """
+
+    num = round(num)
     # Milliards
     if abs(num) >= 1_000_000_000:
         return f"{num / 1_000_000_000:.1f}B"
@@ -74,3 +77,15 @@ def isControlledByAI(line) :
     if match:
         return match.group(1).lower() == "true"
     return None
+
+
+def resource_path(relative_path):
+    """Retourne le vrai chemin d'un fichier inclus par PyInstaller."""
+    try:
+        # PyInstaller crée ce dossier temporaire à l’exécution
+        base_path = sys._MEIPASS
+    except Exception:
+        # En mode normal (non compilé)
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
