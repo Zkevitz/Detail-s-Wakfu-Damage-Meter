@@ -1,5 +1,7 @@
 # 🐉 Detail's Wakfu
 
+
+# LAST VERSION DE L'EXECUTABLE POTENTIEL (BUG) CHOISIR DERNIERE VERSIONS STABLE ALPHA 1.1
 **Detail's Damage Meter for Wakfu**  
 Outil de comptage des dégâts développé en **Python** pour le jeu **Wakfu**, édité par **Ankama Games**.  
 L’application fonctionne entièrement grâce à la lecture des **logs du jeu**.
