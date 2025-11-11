@@ -1,7 +1,6 @@
 # 🐉 Detail's Wakfu
 
 
-# LAST VERSION DE L'EXECUTABLE POTENTIEL (BUG) CHOISIR DERNIERE VERSIONS STABLE ALPHA 1.1
 **Detail's Damage Meter for Wakfu**  
 Outil de comptage des dégâts développé en **Python** pour le jeu **Wakfu**, édité par **Ankama Games**.  
 L’application fonctionne entièrement grâce à la lecture des **logs du jeu**.
@@ -34,6 +33,7 @@ L’application fonctionne entièrement grâce à la lecture des **logs du jeu**
 ## Etat-Actuel 
 
 actuellement les degats/heals/shields direct (dans le tour en cours) sont completement pris en compte
+les invocations de l'osamodas ne sont pour le moment pas correctement ajouté a leur propriétaire 
 
 les classes suivante ont été moins testé que les autres (mais semble tres bien fonctionner) :
 - Sram
